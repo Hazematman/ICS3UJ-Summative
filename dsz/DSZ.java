@@ -17,7 +17,6 @@ public class DSZ {
 				if(event.type == Event.Type.CLOSED){
 					screen.close();
 				}
-				
 			}
 			
 			screen.clear(Color.CYAN);
