@@ -20,7 +20,6 @@ public class DSZ {
 				
 			}
 			
-			
 			screen.clear(Color.CYAN);
 			
 			screen.display();
