@@ -1,5 +1,6 @@
 package dsz;
 
+import java.io.*;
 import java.util.ArrayList;
 import org.jsfml.graphics.*;
 
@@ -9,8 +10,25 @@ public class Map {
 	ArrayList<Integer> textureMap = new ArrayList<Integer>();
 	ArrayList<Integer> colMap = new ArrayList<Integer>();
 	
-	public Map(String textureFile,int XSize, int YSize){
-		textures = new TextureArray(textureFile,XSize,YSize);
+	public Map(TextureArray texts){
+		textures = texts;
+	}
+	
+	void loadMapFile(FileReader file){
+		String buf, data="";
+		try{
+		BufferedReader br = new BufferedReader(file);
+		while((buf=br.readLine()) != null){
+			data+=buf;
+		}
+		br.close();
+		} catch(IOException e){
+			System.out.println("Can't open file");
+			System.exit(0);
+		}
+		
+		loadMap(data);
+		
 	}
 	
 	void loadMap(String data){
@@ -19,10 +37,11 @@ public class Map {
 		YSize = Integer.parseInt(dataArray[1]);
 		totalSize = XSize * YSize;
 		int size = totalSize+2;
+		System.out.println(dataArray[1]);
 		
-		for(int i=0;i<size;i++){
+		for(int i=2;i<size;i++){
 			textureMap.add(Integer.parseInt(dataArray[i]));
-			colMap.add(Integer.parseInt(dataArray[size+i]));
+			//colMap.add(Integer.parseInt(dataArray[size+i]));
 		}
 	}
 	
@@ -36,6 +55,7 @@ public class Map {
 			for(int y=0;y<YSize;y++){
 				currentTile.setPosition(x,y);
 				currentTile.setTexture(textures.tiles.get(textureMap.get(currentSlot)));
+				System.out.println(textureMap.get(currentSlot));
 				screen.draw(currentTile);
 				currentSlot++;
 				
