@@ -22,7 +22,6 @@ public class DSZ {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(bleh.colMap.get(441));
 		Sprite world = new Sprite(bleh.drawMap(800, 600));
 		
 		while(screen.isOpen()){
