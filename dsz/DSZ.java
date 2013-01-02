@@ -22,8 +22,8 @@ public class DSZ {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		System.out.println(bleh.colMap.get(441));
 		Sprite world = new Sprite(bleh.drawMap(800, 600));
-		Sprite meh = new Sprite(texs.tiles.get(2));
 		
 		while(screen.isOpen()){
 			for(Event event : screen.pollEvents()){
@@ -34,7 +34,6 @@ public class DSZ {
 			
 			screen.clear(Color.CYAN);
 			screen.draw(world);
-			screen.draw(meh);
 			screen.display();
 		}
 

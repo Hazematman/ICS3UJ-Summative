@@ -36,12 +36,13 @@ public class Map {
 		XSize = Integer.parseInt(dataArray[0]);
 		YSize = Integer.parseInt(dataArray[1]);
 		totalSize = XSize * YSize;
-		int size = totalSize+2;
-		System.out.println(dataArray[1]);
+		int size = totalSize;
+		System.out.println(size);
 		
-		for(int i=2;i<size;i++){
+		for(int i=2;i<size+3;i++){
+			//System.out.println(i);
 			textureMap.add(Integer.parseInt(dataArray[i]));
-			//colMap.add(Integer.parseInt(dataArray[size+i]));
+			colMap.add(Integer.parseInt(dataArray[(size-1)+i]));
 		}
 	}
 	
@@ -53,9 +54,9 @@ public class Map {
 		screen.clear();
 		for(int x=0;x<XSize;x++){
 			for(int y=0;y<YSize;y++){
-				currentTile.setPosition(x,y);
+				currentTile.setPosition(x*16,y*16);
 				currentTile.setTexture(textures.tiles.get(textureMap.get(currentSlot)));
-				System.out.println(textureMap.get(currentSlot));
+				//System.out.println(textureMap.get(currentSlot));
 				screen.draw(currentTile);
 				currentSlot++;
 				

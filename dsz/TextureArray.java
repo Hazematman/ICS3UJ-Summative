@@ -11,7 +11,7 @@ public class TextureArray {
 	int numberOfTextures;
 	
 	public TextureArray(String file,int numOfX, int numOfY){
-		Texture currentTile = new Texture();
+		//Texture currentTile = new Texture();
 		try {
 			masterImage.loadFromFile(new File(file));
 		} catch (IOException e) {
@@ -20,6 +20,7 @@ public class TextureArray {
 		}
 		for(int x=0;x<numOfX;x++){
 			for(int y=0;y<numOfY;y++){
+				Texture currentTile = new Texture();
 				currentTile.loadFromImage(masterImage, new IntRect(x*16,y*16,16,16));
 				tiles.add(currentTile);
 			}
