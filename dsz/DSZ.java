@@ -10,9 +10,10 @@ import org.jsfml.graphics.*;
 public class DSZ {
 	
 	static String title = "Dungeons, Swords & Zombies";
+	public static int width = 800, height = 600;
 
 	public static void main(String[] args) {
-		RenderWindow screen = new RenderWindow(new VideoMode(800,600),title);
+		RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
 		screen.setFramerateLimit(60);
 		
 		TextureArray texs = new TextureArray("tiles.png",8,2);
