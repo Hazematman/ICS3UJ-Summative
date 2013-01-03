@@ -9,25 +9,39 @@ import org.jsfml.graphics.*;
 
 public class DSZ {
 	
-	static String title = "Dungeons, Swords & Zombies";
-	public static int width = 800, height = 600;
-
-	public static void main(String[] args) {
-		RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
+	//Some global constants
+	public final static String title = "Dungeons, Swords & Zombies";
+	public final static int width = 800, height = 600;
+	public final static int tileWidth = 25, tileHeight = 15;
+	
+	//Some internal stuff
+	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
+	static EntityManager entityManager = new EntityManager();
+	static TextureArray textures = new TextureArray("tiles.png",8,2);
+	
+	//Starting entities
+	static MapEntity worldSpawn = new MapEntity(textures);
+	
+	static void addEntities(){
+		entityManager.entityList.add(worldSpawn);
+	}
+	
+	static void setup(){
 		screen.setFramerateLimit(60);
 		
-		TextureArray texs = new TextureArray("tiles.png",8,2);
-		Map gameMap = new Map(texs);
 		try {
-			gameMap.loadMapFile(new FileReader("test.map"));
+			worldSpawn.map.loadMapFile(new FileReader("test.map"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		//Setup spriteGameMap with scaling and position
-		Sprite spriteGameMap = new Sprite(gameMap.drawMap(400, 240));
-		spriteGameMap.scale(2, 2);
-		spriteGameMap.setPosition(0, 120);
+		addEntities();
+		
+	}
+
+	public static void main(String[] args) {
+		Sprite currentFrame = new Sprite();
+		setup();
 		
 		while(screen.isOpen()){
 			for(Event event : screen.pollEvents()){
@@ -36,8 +50,11 @@ public class DSZ {
 				}
 			}
 			
+			entityManager.updateEntities();
+			currentFrame.setTexture(entityManager.drawEntities());
+			
 			screen.clear();
-			screen.draw(spriteGameMap);
+			screen.draw(currentFrame);
 			screen.display();
 		}
 
