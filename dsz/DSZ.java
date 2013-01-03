@@ -16,13 +16,17 @@ public class DSZ {
 		screen.setFramerateLimit(60);
 		
 		TextureArray texs = new TextureArray("tiles.png",8,2);
-		Map bleh = new Map(texs);
+		Map gameMap = new Map(texs);
 		try {
-			bleh.loadMapFile(new FileReader("test.map"));
+			gameMap.loadMapFile(new FileReader("test.map"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		Sprite world = new Sprite(bleh.drawMap(800, 600));
+		
+		//Setup spriteGameMap with scaling and position
+		Sprite spriteGameMap = new Sprite(gameMap.drawMap(400, 240));
+		spriteGameMap.scale(2, 2);
+		spriteGameMap.setPosition(0, 120);
 		
 		while(screen.isOpen()){
 			for(Event event : screen.pollEvents()){
@@ -31,8 +35,8 @@ public class DSZ {
 				}
 			}
 			
-			screen.clear(Color.CYAN);
-			screen.draw(world);
+			screen.clear();
+			screen.draw(spriteGameMap);
 			screen.display();
 		}
 
