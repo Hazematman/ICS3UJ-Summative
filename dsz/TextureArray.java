@@ -5,11 +5,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.jsfml.graphics.*;
 
+/**
+ * Class that loads one image and splits it into 16x16 elements that can
+ * then be drawn idividually.
+ */
 public class TextureArray {
 	Image masterImage = new Image();
 	ArrayList<Texture> tiles = new ArrayList<Texture>();
 	int numberOfTextures;
 	
+	/**
+	 * Constructs a TextureArray from file that has X x Y elements/tiles
+	 * @param file A string that has the file name of the master image
+	 * @param numOfX number of x elements/tiles in the image
+	 * @param numOfY number of y elements/tiles in the image
+	 */
 	public TextureArray(String file,int numOfX, int numOfY){
 		//Texture currentTile = new Texture();
 		try {

@@ -17,7 +17,7 @@ public class DSZ {
 	//Some internal stuff
 	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
 	static EntityManager entityManager = new EntityManager();
-	static TextureArray textures = new TextureArray("tiles.png",8,2);
+	static TextureArray textures = new TextureArray("tilemap.png",8,2);
 	
 	//Starting entities
 	static MapEntity worldSpawn = new MapEntity(textures);
@@ -30,7 +30,7 @@ public class DSZ {
 		screen.setFramerateLimit(60);
 		
 		try {
-			worldSpawn.map.loadMapFile(new FileReader("test.map"));
+			worldSpawn.map.loadMapFile(new FileReader("base.map"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +40,6 @@ public class DSZ {
 	}
 
 	public static void main(String[] args) {
-		Sprite currentFrame = new Sprite();
 		setup();
 		
 		while(screen.isOpen()){
@@ -51,10 +50,9 @@ public class DSZ {
 			}
 			
 			entityManager.updateEntities();
-			currentFrame.setTexture(entityManager.drawEntities());
 			
 			screen.clear();
-			screen.draw(currentFrame);
+			entityManager.drawEntities(screen);
 			screen.display();
 		}
 
