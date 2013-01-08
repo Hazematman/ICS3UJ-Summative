@@ -19,6 +19,7 @@ public class MapEntity extends Entity {
 		textures = texs;
 		map = new Map(textures);
 		
+		//Set inherited variables
 		type = "Map";
 		x=0;
 		y=120;
