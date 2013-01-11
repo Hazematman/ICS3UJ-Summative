@@ -37,7 +37,7 @@ public class MapEntity extends Entity {
 	 *  map.loadMap or map.loadMapFile should be called before map is updated.
 	 */
 	@Override
-	void update() {
+	void update(int framecount) {
 		spriteMap.setTexture(map.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
 		readyToUpdate = false;
 	}

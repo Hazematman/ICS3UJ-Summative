@@ -1,7 +1,9 @@
 package dsz;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 import org.jsfml.window.*;
 import org.jsfml.window.event.*;
@@ -20,14 +22,27 @@ public class DSZ {
 	static TextureArray textures = new TextureArray("tilemap.png",8,2);
 	
 	//Starting entities
-	static MapEntity worldSpawn = new MapEntity(textures);
+	static MapEntity worldSpawn;
+	static PlayerEntity player;
 	
 	static void addEntities(){
 		entityManager.entityList.add(worldSpawn);
+		entityManager.entityList.add(player);
 	}
 	
 	static void setup(){
 		screen.setFramerateLimit(60);
+		
+		//load texture for player
+		Texture playerTexture = new Texture();
+		try{
+			playerTexture.loadFromFile(new File("player.png"));
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		worldSpawn = new MapEntity(textures);
+		player = new PlayerEntity(playerTexture);
 		
 		try {
 			worldSpawn.map.loadMapFile(new FileReader("base.map"));
@@ -40,6 +55,7 @@ public class DSZ {
 	}
 
 	public static void main(String[] args) {
+		int framecount = 0;
 		setup();
 		
 		while(screen.isOpen()){
@@ -49,11 +65,17 @@ public class DSZ {
 				}
 			}
 			
-			entityManager.updateEntities();
+			
+			entityManager.updateEntities(framecount);
 			
 			screen.clear();
 			entityManager.drawEntities(screen);
 			screen.display();
+			
+			if(framecount > 60){
+				framecount = 0;
+			} else framecount++;
+			
 		}
 
 	}

@@ -13,10 +13,10 @@ public class EntityManager {
 	/**
 	 * Calls update() from every element in the entityList that is ready to update.
 	 */
-	void updateEntities(){
+	void updateEntities(int framecount){
 		for(int i=0;i<entityList.size();i++){
 			if(entityList.get(i).readyToUpdate){
-				entityList.get(i).update();
+				entityList.get(i).update(framecount);
 			}
 		}
 	}

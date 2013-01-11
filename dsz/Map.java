@@ -39,7 +39,6 @@ public class Map {
 			System.out.println("Can't open file");
 			System.exit(0);
 		}
-		
 		loadMap(data);
 		
 	}

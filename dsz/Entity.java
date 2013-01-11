@@ -11,7 +11,7 @@ public abstract class Entity {
 	Boolean drawable, collides, readyToUpdate;
 	int x,y;
 	
-	abstract void update();
+	abstract void update(int framecount);
 	abstract void onCollision();
 	abstract Sprite draw();
 }
