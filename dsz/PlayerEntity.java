@@ -26,6 +26,7 @@ public class PlayerEntity extends Entity {
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
+		collisionBox = new FloatRect[1];
 		
 		playerSprite.setTextureRect(new IntRect(currentFrame*16,currentSet*16,16,16));
 	}
@@ -91,7 +92,7 @@ public class PlayerEntity extends Entity {
 			break;
 		}
 		
-		//Animate if required and do it and a proper speed
+		//Animate if required and do it at a proper speed
 		if(animate){
 			if(framecount%5 == 0){
 				if(currentFrame <= 2){
@@ -100,12 +101,13 @@ public class PlayerEntity extends Entity {
 			}
 		} else currentFrame = 0;
 		
+		collisionBox[0] = playerSprite.getGlobalBounds();
 	}
 
 	@Override
-	void onCollision() {
-		// TODO Auto-generated method stub
-		
+	void onCollision(Entity object) {
+		System.out.println("WOW COLLSION!");
+		return; //TODO actually stuff
 	}
 
 	@Override

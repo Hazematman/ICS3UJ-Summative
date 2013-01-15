@@ -7,7 +7,7 @@ import org.jsfml.graphics.*;
 
 /**
  * Class that loads one image and splits it into 16x16 elements that can
- * then be drawn idividually.
+ * then be drawn individually.
  */
 public class TextureArray {
 	Image masterImage = new Image();

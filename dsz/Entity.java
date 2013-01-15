@@ -1,6 +1,6 @@
 package dsz;
 
-import org.jsfml.graphics.Sprite;
+import org.jsfml.graphics.*;
 
 /**
  * The base entity class that every entity will be based off of.
@@ -9,9 +9,10 @@ import org.jsfml.graphics.Sprite;
 public abstract class Entity {
 	String type;
 	Boolean drawable, collides, readyToUpdate;
+	FloatRect[] collisionBox;
 	int x,y;
 	
 	abstract void update(int framecount);
-	abstract void onCollision();
+	abstract void onCollision(Entity object);
 	abstract Sprite draw();
 }

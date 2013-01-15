@@ -1,6 +1,7 @@
 package dsz;
 
-import org.jsfml.graphics.Sprite;
+import java.util.ArrayList;
+import org.jsfml.graphics.*;
 
 /**
  * An entity that handles and controls a map and all its contents.
@@ -40,10 +41,21 @@ public class MapEntity extends Entity {
 	void update(int framecount) {
 		spriteMap.setTexture(map.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
 		readyToUpdate = false;
+		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
+		int currentSlot = 0;
+		for(int x=0;x<map.XSize;x++){
+			for(int y=0;y<map.YSize;y++){
+				if(map.colMap.get(currentSlot) == 2){
+					collisionBoxList.add(new FloatRect((x+this.x)*36,(y+this.y)*32,32,32));
+				}
+				currentSlot++;
+			}
+		}
+		collisionBox = (FloatRect[])collisionBoxList.toArray(new FloatRect[collisionBoxList.size()]);
 	}
 
 	@Override
-	void onCollision() {
+	void onCollision(Entity object) {
 		return;
 	}
 	
