@@ -13,6 +13,6 @@ public abstract class Entity {
 	int x,y;
 	
 	abstract void update(int framecount);
-	abstract void onCollision(Entity object);
+	abstract void onCollision(Entity object,FloatRect objectCollsionBox);
 	abstract Sprite draw();
 }

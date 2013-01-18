@@ -11,6 +11,7 @@ public class PlayerEntity extends Entity {
 	int speed = 4;
 	char direction = 'D';
 	boolean animate = false;
+	boolean colliding = false;
 	
 	Sprite playerSprite = new Sprite();
 	
@@ -21,13 +22,14 @@ public class PlayerEntity extends Entity {
 		
 		//Set inherited variables
 		type = "Mob";
-		x = 0;
-		y = 0;
+		x = DSZ.width/2;
+		y = DSZ.height/2;
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
 		collisionBox = new FloatRect[1];
 		
+		playerSprite.setPosition(x, y);
 		playerSprite.setTextureRect(new IntRect(currentFrame*16,currentSet*16,16,16));
 	}
 
@@ -95,7 +97,7 @@ public class PlayerEntity extends Entity {
 		//Animate if required and do it at a proper speed
 		if(animate){
 			if(framecount%5 == 0){
-				if(currentFrame <= 2){
+				if(currentFrame < 2){
 					currentFrame++;
 				} else currentFrame = 0;
 			}
@@ -105,14 +107,31 @@ public class PlayerEntity extends Entity {
 	}
 
 	@Override
-	void onCollision(Entity object) {
-		System.out.println("WOW COLLSION!");
-		return; //TODO actually stuff
+	void onCollision(Entity object,FloatRect objectCollisionBox) {
+		
+		if(object.type.equals("Map")){
+			MapEntity map = (MapEntity)object;
+			int px = (int)Math.floor((playerSprite.getGlobalBounds().left+16)/32);
+			int py = (int)Math.floor(((playerSprite.getGlobalBounds().top-120)+16)/32);
+			if(map.getCollisionID(px, py-1) == 2){
+				playerSprite.move(0,4);
+			}
+			if(map.getCollisionID(px, py+1) == 2){
+				playerSprite.move(0,-4);
+			}
+			if(map.getCollisionID(px-1, py) == 2){
+				playerSprite.move(4,0);
+			}
+			if(map.getCollisionID(px+1, py) == 2){
+				playerSprite.move(-4, 0);
+			}
+		}
 	}
 
 	@Override
 	Sprite draw() {
 		playerSprite.setTextureRect(new IntRect(currentFrame*16,currentSet*16,16,16));
+		//System.out.println("Moving at: "+xVol);
 		playerSprite.move(xVol, yVol);
 		return playerSprite;
 	}

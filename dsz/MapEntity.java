@@ -32,6 +32,10 @@ public class MapEntity extends Entity {
 		collides = true;
 		readyToUpdate = true;
 	}
+	
+	int getCollisionID(int x, int y){
+		return map.colMap.get((x*map.YSize)+y);
+	}
 
 	/**
 	 * Sets the spriteMap to the current map data.
@@ -46,7 +50,7 @@ public class MapEntity extends Entity {
 		for(int x=0;x<map.XSize;x++){
 			for(int y=0;y<map.YSize;y++){
 				if(map.colMap.get(currentSlot) == 2){
-					collisionBoxList.add(new FloatRect((x+this.x)*36,(y+this.y)*32,32,32));
+					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
 				}
 				currentSlot++;
 			}
@@ -55,7 +59,7 @@ public class MapEntity extends Entity {
 	}
 
 	@Override
-	void onCollision(Entity object) {
+	void onCollision(Entity object,FloatRect objectCollisionBox) {
 		return;
 	}
 	

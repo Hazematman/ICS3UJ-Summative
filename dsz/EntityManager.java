@@ -26,13 +26,20 @@ public class EntityManager {
 	 */
 	void collideEntities(){
 		for(int i=0;i<entityList.size();i++){
+			ArrayList<Integer> ignoreList = new ArrayList<Integer>();
 			if(entityList.get(i).collides){
 				for(int j=i+1;j<entityList.size();j++){
-					for(FloatRect f1 : entityList.get(i).collisionBox){
-						for(FloatRect f2 : entityList.get(j).collisionBox){
-							if(f1.intersection(f2) != null){
-								entityList.get(i).onCollision(entityList.get(j));
-								entityList.get(j).onCollision(entityList.get(i));
+					if(entityList.get(j).collides){
+						for(FloatRect f1 : entityList.get(i).collisionBox){
+							for(FloatRect f2 : entityList.get(j).collisionBox){
+								if(f1.intersection(f2) != null){
+									if(ignoreList.contains(j)){
+										continue;
+									}
+									entityList.get(i).onCollision(entityList.get(j),f2);
+									entityList.get(j).onCollision(entityList.get(i),f1);
+									ignoreList.add(j);
+								}
 							}
 						}
 					}

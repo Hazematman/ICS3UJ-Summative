@@ -64,8 +64,7 @@ public class DSZ {
 					screen.close();
 				}
 			}
-			
-			
+				
 			entityManager.updateEntities(framecount);
 			entityManager.collideEntities();
 			
