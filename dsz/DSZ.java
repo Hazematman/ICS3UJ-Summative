@@ -45,7 +45,7 @@ public class DSZ {
 		player = new PlayerEntity(playerTexture);
 		
 		try {
-			worldSpawn.map.loadMapFile(new FileReader("base.map"));
+			worldSpawn.currentMap.loadMapFile(new FileReader("base.map"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

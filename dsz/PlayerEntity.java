@@ -19,7 +19,6 @@ public class PlayerEntity extends Entity {
 		playerSprite.setTexture(master);
 		playerSprite.scale(2,2);
 		
-		
 		//Set inherited variables
 		type = "Mob";
 		x = DSZ.width/2;

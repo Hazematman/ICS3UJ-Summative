@@ -9,7 +9,7 @@ import org.jsfml.graphics.*;
 public class MapEntity extends Entity {
 	
 	TextureArray textures;
-	Map map;
+	Map currentMap;
 	Sprite spriteMap = new Sprite();
 	
 	/**
@@ -18,7 +18,7 @@ public class MapEntity extends Entity {
 	 */
 	public MapEntity(TextureArray texs){
 		textures = texs;
-		map = new Map(textures);
+		currentMap = new Map(textures);
 		
 		//Set inherited variables
 		type = "Map";
@@ -34,7 +34,7 @@ public class MapEntity extends Entity {
 	}
 	
 	int getCollisionID(int x, int y){
-		return map.colMap.get((x*map.YSize)+y);
+		return currentMap.colMap.get((x*currentMap.YSize)+y);
 	}
 
 	/**
@@ -43,13 +43,13 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		spriteMap.setTexture(map.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
+		spriteMap.setTexture(currentMap.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
 		readyToUpdate = false;
 		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
 		int currentSlot = 0;
-		for(int x=0;x<map.XSize;x++){
-			for(int y=0;y<map.YSize;y++){
-				if(map.colMap.get(currentSlot) == 2){
+		for(int x=0;x<currentMap.XSize;x++){
+			for(int y=0;y<currentMap.YSize;y++){
+				if(currentMap.colMap.get(currentSlot) == 2){
 					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
 				}
 				currentSlot++;
