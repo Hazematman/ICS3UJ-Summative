@@ -15,6 +15,7 @@ public class DSZ {
 	public final static String title = "Dungeons, Swords & Zombies";
 	public final static int width = 800, height = 600;
 	public final static int tileWidth = 25, tileHeight = 15;
+	public final static int mapWidth = 6, mapHeight = 4;
 	
 	//Some internal stuff
 	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
@@ -41,7 +42,12 @@ public class DSZ {
 			e.printStackTrace();
 		}
 		
-		worldSpawn = new MapEntity(textures);
+		try {
+			worldSpawn = new MapEntity(textures,new FileReader("base.map"));
+		} catch (FileNotFoundException e1) {
+			System.out.println("Can't open base.map");
+			System.exit(0);
+		}
 		player = new PlayerEntity(playerTexture);
 		
 		try {

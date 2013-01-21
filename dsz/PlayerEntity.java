@@ -112,16 +112,16 @@ public class PlayerEntity extends Entity {
 			MapEntity map = (MapEntity)object;
 			int px = (int)Math.floor((playerSprite.getGlobalBounds().left+16)/32);
 			int py = (int)Math.floor(((playerSprite.getGlobalBounds().top-120)+16)/32);
-			if(map.getCollisionID(px, py-1) == 2){
+			if(map.getCollisionID(px, py-1) >= 2){
 				playerSprite.move(0,4);
 			}
-			if(map.getCollisionID(px, py+1) == 2){
+			if(map.getCollisionID(px, py+1) >= 2){
 				playerSprite.move(0,-4);
 			}
-			if(map.getCollisionID(px-1, py) == 2){
+			if(map.getCollisionID(px-1, py) >= 2){
 				playerSprite.move(4,0);
 			}
-			if(map.getCollisionID(px+1, py) == 2){
+			if(map.getCollisionID(px+1, py) >= 2){
 				playerSprite.move(-4, 0);
 			}
 		}

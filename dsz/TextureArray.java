@@ -31,7 +31,11 @@ public class TextureArray {
 		for(int x=0;x<numOfX;x++){
 			for(int y=0;y<numOfY;y++){
 				Texture currentTile = new Texture();
-				currentTile.loadFromImage(masterImage, new IntRect(x*16,y*16,16,16));
+				try {
+					currentTile.loadFromImage(masterImage, new IntRect(x*16,y*16,16,16));
+				} catch (TextureCreationException e) {
+					e.printStackTrace();
+				}
 				tiles.add(currentTile);
 			}
 		}

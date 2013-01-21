@@ -68,8 +68,9 @@ public class Map {
 	 * @param width How wide in pixels you want the returned Texture to be.
 	 * @param height How high in pixels you want the returned Texture to be.
 	 * @return a Texture that is width x height big that can then be drawn to the screen
+	 * @throws TextureCreationException 
 	 */
-	ConstTexture drawMap(int width,int height){
+	ConstTexture drawMap(int width,int height) throws TextureCreationException{
 		Sprite currentTile = new Sprite();
 		RenderTexture screen = new RenderTexture();
 		int currentSlot = 0;
@@ -88,5 +89,46 @@ public class Map {
 		
 		return screen.getTexture();
 	}
+	
+	/**
+	 * Get the textureID at (x,y)
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return texture ID at (x,y)
+	 */
+	int getTextureID(int x, int y){
+		return textureMap.get((x*YSize)+y);
+	}
+	
+	/**
+	 * Set the texture ID at (x,y) with value
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @param value to set to
+	 */
+	void setTextureID(int x, int y, int value){
+		textureMap.set((x*YSize)+y, value);
+	}
+	
+	/**
+	 * Get the collision map ID at (x,y)
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return collision map ID at (x,y)
+	 */
+	int getCollisionID(int x, int y){
+		return colMap.get((x*YSize)+y);
+	}
+	
+	/**
+	 * Set the collision map ID at (x,y) with value
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @param value to set to
+	 */
+	void setCollisionID(int x, int y, int value){
+		colMap.set((x*YSize)+y, value);
+	}
+	
 
 }
