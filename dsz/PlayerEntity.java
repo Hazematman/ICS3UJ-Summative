@@ -109,21 +109,55 @@ public class PlayerEntity extends Entity {
 	void onCollision(Entity object,FloatRect objectCollisionBox) {
 		
 		if(object.type.equals("Map")){
+			int collisionID = 0;
 			MapEntity map = (MapEntity)object;
 			int px = (int)Math.floor((playerSprite.getGlobalBounds().left+16)/32);
 			int py = (int)Math.floor(((playerSprite.getGlobalBounds().top-120)+16)/32);
 			if(map.getCollisionID(px, py-1) >= 2){
+				collisionID = map.getCollisionID(px, py-1);
 				playerSprite.move(0,4);
 			}
 			if(map.getCollisionID(px, py+1) >= 2){
+				collisionID = map.getCollisionID(px, py+1);
 				playerSprite.move(0,-4);
 			}
 			if(map.getCollisionID(px-1, py) >= 2){
+				collisionID = map.getCollisionID(px-1, py);
 				playerSprite.move(4,0);
 			}
 			if(map.getCollisionID(px+1, py) >= 2){
+				collisionID = map.getCollisionID(px+1, py);
 				playerSprite.move(-4, 0);
 			}
+			
+			//Check if the collision id was something more than a wall
+			switch(collisionID){
+			//check for map up change
+			case 3:
+				DSZ.worldSpawn.currentY--;
+				DSZ.worldSpawn.updatePosition();
+				playerSprite.setPosition(playerSprite.getGlobalBounds().left,((DSZ.tileHeight-2)*32)+120);
+				break;
+			//check for map right change
+			case 4:
+				DSZ.worldSpawn.currentX++;
+				DSZ.worldSpawn.updatePosition();
+				playerSprite.setPosition(1*32, playerSprite.getGlobalBounds().top);
+				break;
+			//check for map down change
+			case 5:
+				DSZ.worldSpawn.currentY++;
+				DSZ.worldSpawn.updatePosition();
+				playerSprite.setPosition(playerSprite.getGlobalBounds().left,(1*32)+120);
+				break;
+			//check for map left change
+			case 6:
+				DSZ.worldSpawn.currentX--;
+				DSZ.worldSpawn.updatePosition();
+				playerSprite.setPosition((DSZ.tileWidth-2)*32, playerSprite.getGlobalBounds().top);
+				break;
+			}
+			
 		}
 	}
 

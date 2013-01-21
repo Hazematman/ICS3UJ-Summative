@@ -93,7 +93,7 @@ public class MapEntity extends Entity {
 		int currentSlot = 0;
 		for(int x=0;x<currentMap.XSize;x++){
 			for(int y=0;y<currentMap.YSize;y++){
-				if(currentMap.colMap.get(currentSlot) == 2){
+				if(currentMap.colMap.get(currentSlot) >= 2){
 					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
 				}
 				currentSlot++;
@@ -184,7 +184,7 @@ public class MapEntity extends Entity {
 					mapList[x][y].setCollisionID(13, DSZ.tileHeight-1, 2);
 				}
 				//check if there is map to the left
-				if(x-1 >= 0 && mapListInt[x-1][y] == 0){
+				if(x-1 >= 0 && mapListInt[x-1][y] == 1){
 					mapList[x][y].setTextureID(0, 6, 12);
 					mapList[x][y].setTextureID(0, 7, 0);
 					mapList[x][y].setTextureID(0, 8, 1);
@@ -203,6 +203,28 @@ public class MapEntity extends Entity {
 			currentY = random.nextInt(DSZ.mapHeight);
 		}
 		currentMap = mapList[currentX][currentY];
+		System.out.println(currentX + " " + currentY);
+	}
+	
+	void updatePosition(){
+		System.out.println(currentX + " " + currentY);
+		currentMap = mapList[currentX][currentY];
+		try {
+			spriteMap.setTexture(currentMap.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
+		} catch (TextureCreationException e) {
+			e.printStackTrace();
+		}
+		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
+		int currentSlot = 0;
+		for(int x=0;x<currentMap.XSize;x++){
+			for(int y=0;y<currentMap.YSize;y++){
+				if(currentMap.colMap.get(currentSlot) >= 2){
+					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
+				}
+				currentSlot++;
+			}
+		}
+		collisionBox = (FloatRect[])collisionBoxList.toArray(new FloatRect[collisionBoxList.size()]);
 	}
 
 	/**
