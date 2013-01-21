@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
 import org.jsfml.graphics.*;
 
 /**
@@ -16,7 +14,8 @@ public class MapEntity extends Entity {
 	TextureArray textures;
 	Map currentMap;
 	int[][] mapListInt = new int[DSZ.mapWidth][DSZ.mapHeight];
-	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];;
+	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];
+	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in (x,y) map
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
 	int currentX, currentY;
@@ -83,59 +82,47 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		try {
-			spriteMap.setTexture(currentMap.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
-		} catch (TextureCreationException e) {
-			e.printStackTrace();
-		}
 		readyToUpdate = false;
-		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
-		int currentSlot = 0;
-		for(int x=0;x<currentMap.XSize;x++){
-			for(int y=0;y<currentMap.YSize;y++){
-				if(currentMap.colMap.get(currentSlot) >= 2){
-					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
-				}
-				currentSlot++;
-			}
-		}
-		collisionBox = (FloatRect[])collisionBoxList.toArray(new FloatRect[collisionBoxList.size()]);
+		updatePosition();
 	}
 	
 	
 	void generateLevel(){
-		Random random = new Random();
 		int tries = 0;
 		int dir;
-		int x = random.nextInt(DSZ.mapWidth), y = random.nextInt(DSZ.mapHeight);
+		int x = DSZ.random.nextInt(DSZ.mapWidth), y = DSZ.random.nextInt(DSZ.mapHeight);
 		mapListInt[x][y] = 1;
 		//Here it generates the integer list of maps
 		while(tries < 100){
 			tries++;
-			dir = random.nextInt(4);
+			dir = DSZ.random.nextInt(4);
 			switch(dir){
 			case 0: //Place map up
 				if(y-1 >= 0 && mapListInt[x][y-1] == 0){
 					y--;
 					mapListInt[x][y] = 1;
+					numOfZombies[x][y] = DSZ.random.nextInt(5)+1;
 				}
 				break;
 			case 1://place map right
 				if(x+1 < DSZ.mapWidth && mapListInt[x+1][y] == 0){
 					x++;
 					mapListInt[x][y] = 1;
+					numOfZombies[x][y] = DSZ.random.nextInt(5)+1;
 				}
 				break;
 			case 2: //place map down
 				if(y+1 < DSZ.mapHeight && mapListInt[x][y+1] == 0){
 					y++;
 					mapListInt[x][y] = 1;
+					numOfZombies[x][y] = DSZ.random.nextInt(5)+1;
 				}
 				break;
 			case 3: //place map left
 				if(x-1 >= 0 && mapListInt[x-1][y] == 0){
 					x--;
 					mapListInt[x][y] = 1;
+					numOfZombies[x][y] = DSZ.random.nextInt(5)+1;
 				}
 				break;
 			}
@@ -196,17 +183,23 @@ public class MapEntity extends Entity {
 			}
 		}
 		
-		currentX = random.nextInt(DSZ.mapWidth);
-		currentY = random.nextInt(DSZ.mapHeight);
+		currentX = DSZ.random.nextInt(DSZ.mapWidth);
+		currentY = DSZ.random.nextInt(DSZ.mapHeight);
 		while(mapListInt[currentX][currentY] == 0){
-			currentX = random.nextInt(DSZ.mapWidth);
-			currentY = random.nextInt(DSZ.mapHeight);
+			currentX = DSZ.random.nextInt(DSZ.mapWidth);
+			currentY = DSZ.random.nextInt(DSZ.mapHeight);
 		}
 		currentMap = mapList[currentX][currentY];
 		System.out.println(currentX + " " + currentY);
 	}
 	
 	void updatePosition(){
+		for(int i=0;i<DSZ.entityManager.entityList.size();i++){
+			if(DSZ.entityManager.entityList.get(i).type.equals("Zombie")){
+				DSZ.entityManager.entityList.remove(i);
+				i=0;
+			}
+		}
 		System.out.println(currentX + " " + currentY);
 		currentMap = mapList[currentX][currentY];
 		try {
@@ -225,6 +218,12 @@ public class MapEntity extends Entity {
 			}
 		}
 		collisionBox = (FloatRect[])collisionBoxList.toArray(new FloatRect[collisionBoxList.size()]);
+		for(int i=0;i<numOfZombies[currentX][currentY];i++){
+			ZombieEntity zombie = new ZombieEntity(DSZ.zombieTexture,DSZ.player,
+					DSZ.random.nextInt((DSZ.tileWidth-3)*32 - 2*32)+2*32,DSZ.random.nextInt((DSZ.tileHeight-3)*32-((2*32)+120)+(2*32))+120);
+			zombie.update(0);
+			DSZ.entityManager.entityList.add(zombie);
+		}
 	}
 
 	/**

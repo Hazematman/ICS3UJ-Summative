@@ -4,6 +4,7 @@ import org.jsfml.graphics.ConstTexture;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Sprite;
+import org.jsfml.system.Vector2f;
 
 public class ZombieEntity extends Entity{
 	
@@ -15,15 +16,15 @@ public class ZombieEntity extends Entity{
 	
 	Sprite zombieSprite = new Sprite();
 	
-	public ZombieEntity(ConstTexture master, Entity target){
+	public ZombieEntity(ConstTexture master, Entity target,int startX, int startY){
 		zombieSprite.setTexture(master);
 		zombieSprite.scale(2,2);
 		this.target = target;
 		
 		//Set inherited variables
 		type = "Zombie";
-		x = DSZ.width/2;
-		y = DSZ.height/2;
+		x = startX;
+		y = startY;
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
@@ -92,17 +93,42 @@ public class ZombieEntity extends Entity{
 			int px = (int)Math.floor((zombieSprite.getGlobalBounds().left+16)/32);
 			int py = (int)Math.floor(((zombieSprite.getGlobalBounds().top-120)+16)/32);
 			if(map.getCollisionID(px, py-1) >= 2){
-				zombieSprite.move(0,4);
+				zombieSprite.move(0,2);
 			}
 			if(map.getCollisionID(px, py+1) >= 2){
-				zombieSprite.move(0,-4);
+				zombieSprite.move(0,-2);
 			}
 			if(map.getCollisionID(px-1, py) >= 2){
-				zombieSprite.move(4,0);
+				zombieSprite.move(2,0);
 			}
 			if(map.getCollisionID(px+1, py) >= 2){
-				zombieSprite.move(-4, 0);
+				zombieSprite.move(-2, 0);
 			}
+		} else{
+			Vector2f bounceDirection = new Vector2f(-(objectCollsionBox.left - x), -(objectCollsionBox.top-y));
+			xVol = (int) bounceDirection.x/4;
+			yVol = (int) bounceDirection.y/4;
+			//zombieSprite.move(bounceDirection);
+			/*switch(DSZ.random.nextInt(4)){
+			case 0:
+				//xVol = 2;
+				zombieSprite.move(2, 0);
+				break;
+			case 1:
+				//xVol = -2;
+				zombieSprite.move(-2, 0);
+				break;
+			case 2:
+				//yVol = 2;
+				zombieSprite.move(0, 2);
+				break;
+			case 3:
+				//yVol = -2;
+				zombieSprite.move(0, -2);
+				break;
+			}*/
+			
+			
 		}
 		
 	}
