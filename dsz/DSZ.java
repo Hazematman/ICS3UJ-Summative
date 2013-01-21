@@ -25,10 +25,12 @@ public class DSZ {
 	//Starting entities
 	static MapEntity worldSpawn;
 	static PlayerEntity player;
+	static ZombieEntity zomb;
 	
 	static void addEntities(){
 		entityManager.entityList.add(worldSpawn);
 		entityManager.entityList.add(player);
+		entityManager.entityList.add(zomb);
 	}
 	
 	static void setup(){
@@ -36,8 +38,10 @@ public class DSZ {
 		
 		//load texture for player
 		Texture playerTexture = new Texture();
+		Texture zombieTexture = new Texture();
 		try{
 			playerTexture.loadFromFile(new File("player.png"));
+			zombieTexture.loadFromFile(new File("zombie.png"));
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -49,6 +53,7 @@ public class DSZ {
 			System.exit(0);
 		}
 		player = new PlayerEntity(playerTexture);
+		zomb = new ZombieEntity(zombieTexture,player);
 		
 		try {
 			worldSpawn.currentMap.loadMapFile(new FileReader("base.map"));

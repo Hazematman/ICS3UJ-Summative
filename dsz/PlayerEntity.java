@@ -11,7 +11,6 @@ public class PlayerEntity extends Entity {
 	int speed = 4;
 	char direction = 'D';
 	boolean animate = false;
-	boolean colliding = false;
 	
 	Sprite playerSprite = new Sprite();
 	
@@ -20,7 +19,7 @@ public class PlayerEntity extends Entity {
 		playerSprite.scale(2,2);
 		
 		//Set inherited variables
-		type = "Mob";
+		type = "Player";
 		x = DSZ.width/2;
 		y = DSZ.height/2;
 		drawable = true;
@@ -164,8 +163,9 @@ public class PlayerEntity extends Entity {
 	@Override
 	Sprite draw() {
 		playerSprite.setTextureRect(new IntRect(currentFrame*16,currentSet*16,16,16));
-		//System.out.println("Moving at: "+xVol);
 		playerSprite.move(xVol, yVol);
+		x = (int) playerSprite.getGlobalBounds().left;
+		y = (int) playerSprite.getGlobalBounds().top;
 		return playerSprite;
 	}
 
