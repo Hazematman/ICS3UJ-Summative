@@ -44,7 +44,6 @@ public class MapEntity extends Entity {
 			System.out.println("Can't open file");
 			System.exit(0);
 		}
-		System.out.println(defaultMap);
 		generateLevel();
 		
 		//Set inherited variables
@@ -88,10 +87,13 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		for(ZombieEntity zombie : zombies){
-			if(zombie.health <= 0){
-				DSZ.entityManager.removeID(zombie.ID);
+		for(int i=0;i<zombies.size();i++){
+			if(zombies.get(i).health <= 0){
+				DSZ.entityManager.removeID(zombies.get(i).ID);
+				zombies.remove(i);
+				i=0;
 				numOfZombies[currentX][currentY]--;
+				System.out.println(numOfZombies[currentX][currentY]);
 			}
 		}
 	}
@@ -136,14 +138,6 @@ public class MapEntity extends Entity {
 				}
 				break;
 			}
-		}
-		
-		//print map to console to make sure its good
-		for(int yy=0;yy<4;yy++){
-			for(int xx=0;xx<6;xx++){
-				System.out.print(mapListInt[xx][yy]+" ");
-				}
-			System.out.print("\n");
 		}
 		
 		for(x=0;x<DSZ.mapWidth;x++){
@@ -201,7 +195,6 @@ public class MapEntity extends Entity {
 		}
 		currentMap = mapList[currentX][currentY];
 		numOfZombies[currentX][currentY] = 0;
-		System.out.println(currentX + " " + currentY);
 	}
 	
 	void updatePosition(){
@@ -216,7 +209,6 @@ public class MapEntity extends Entity {
 			DSZ.entityManager.removeID(zomb.ID);
 		}
 		zombies.clear();
-		System.out.println(currentX + " " + currentY);
 		currentMap = mapList[currentX][currentY];
 		spriteMap.setTexture(currentMap.drawMap());
 		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
