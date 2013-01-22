@@ -19,6 +19,8 @@ public class MapEntity extends Entity {
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
 	int currentX, currentY;
+	boolean newMap = false;
+	ArrayList<ZombieEntity> zombies = new ArrayList<ZombieEntity>();
 	
 	
 	/**
@@ -26,6 +28,7 @@ public class MapEntity extends Entity {
 	 * @param texs The TextureArray that the map will use for its textures.
 	 */
 	public MapEntity(TextureArray texs, FileReader file){
+		super();
 		textures = texs;
 		currentMap = new Map(textures);
 		//Get default map data
@@ -55,6 +58,7 @@ public class MapEntity extends Entity {
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
+		updatePosition();
 		
 	}
 	
@@ -84,8 +88,12 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		readyToUpdate = false;
-		updatePosition();
+		for(ZombieEntity zombie : zombies){
+			if(zombie.health <= 0){
+				DSZ.entityManager.removeID(zombie.ID);
+				numOfZombies[currentX][currentY]--;
+			}
+		}
 	}
 	
 	
@@ -192,16 +200,22 @@ public class MapEntity extends Entity {
 			currentY = DSZ.random.nextInt(DSZ.mapHeight);
 		}
 		currentMap = mapList[currentX][currentY];
+		numOfZombies[currentX][currentY] = 0;
 		System.out.println(currentX + " " + currentY);
 	}
 	
 	void updatePosition(){
-		for(int i=0;i<DSZ.entityManager.entityList.size();i++){
+/*		for(int i=0;i<DSZ.entityManager.entityList.size();i++){
 			if(DSZ.entityManager.entityList.get(i).type.equals("Zombie")){
 				DSZ.entityManager.entityList.remove(i);
 				i=0;
 			}
+		}*/
+		
+		for(ZombieEntity zomb : zombies){
+			DSZ.entityManager.removeID(zomb.ID);
 		}
+		zombies.clear();
 		System.out.println(currentX + " " + currentY);
 		currentMap = mapList[currentX][currentY];
 		spriteMap.setTexture(currentMap.drawMap());
@@ -216,11 +230,13 @@ public class MapEntity extends Entity {
 			}
 		}
 		collisionBox = (FloatRect[])collisionBoxList.toArray(new FloatRect[collisionBoxList.size()]);
+		collisionBoxList.clear();
 		for(int i=0;i<numOfZombies[currentX][currentY];i++){
 			ZombieEntity zombie = new ZombieEntity(DSZ.zombieTexture,DSZ.player,
 					DSZ.random.nextInt((DSZ.tileWidth-3)*32 - 2*32)+2*32,DSZ.random.nextInt((DSZ.tileHeight-3)*32-((2*32)+120)+(2*32))+120);
 			zombie.update(0);
-			DSZ.entityManager.entityList.add(zombie);
+			zombies.add(zombie);
+			DSZ.entityManager.entityList.add(zombies.get(i));
 		}
 	}
 

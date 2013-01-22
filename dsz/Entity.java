@@ -11,6 +11,12 @@ public abstract class Entity {
 	Boolean drawable, collides, readyToUpdate;
 	FloatRect[] collisionBox;
 	int x,y;
+	int ID;
+	
+	public Entity(){
+		ID = DSZ.IDcounter;
+		DSZ.IDcounter++;
+	}
 	
 	abstract void update(int framecount);
 	abstract void onCollision(Entity object,FloatRect objectCollsionBox);

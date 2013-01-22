@@ -1,6 +1,7 @@
 package dsz;
 
 import org.jsfml.graphics.*;
+import org.jsfml.system.Clock;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
 
@@ -10,11 +11,17 @@ public class PlayerEntity extends Entity {
 	int currentFrame = 0, currentSet = 0;
 	int speed = 4;
 	char direction = 'D';
+	int lastdir;
 	boolean animate = false;
+	boolean attacking = false;
+	boolean readyToAttack = true;
 	
 	Sprite playerSprite = new Sprite();
+	SwordEntity sword;
+	Clock swordTimer = new Clock();
 	
 	public PlayerEntity(ConstTexture master){
+		super();
 		playerSprite.setTexture(master);
 		playerSprite.scale(2,2);
 		
@@ -76,6 +83,13 @@ public class PlayerEntity extends Entity {
 			yVol = yVol/2;
 		}
 		
+		//check for sword button
+		if(Keyboard.isKeyPressed(Keyboard.Key.SPACE) && !attacking && readyToAttack){
+			sword = new SwordEntity(DSZ.swordTexture,this);
+			DSZ.entityManager.entityList.add(sword);
+			attacking = true;
+		}
+		
 		// Set to the right set of textures for the direction
 		switch(direction){
 		case 'D':
@@ -101,6 +115,22 @@ public class PlayerEntity extends Entity {
 			}
 		} else currentFrame = 0;
 		
+		if(attacking){
+			currentFrame = 3;
+			currentSet = lastdir;
+			if(sword.dead){
+				DSZ.entityManager.removeType("Sword");
+				readyToAttack = false;
+				attacking = false;
+				swordTimer.restart();
+			}
+		}
+		
+		if(!readyToAttack && swordTimer.getElapsedTime().asMilliseconds() >= 200){
+			readyToAttack = true;
+		}
+		
+		lastdir = currentSet;
 		collisionBox[0] = playerSprite.getGlobalBounds();
 	}
 

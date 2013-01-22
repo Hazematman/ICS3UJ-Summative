@@ -59,4 +59,22 @@ public class EntityManager {
 			}
 		}
 	}
+	
+	void removeType(String type){
+		for(int i=0;i<entityList.size();i++){
+			if(entityList.get(i).type.equals(type)){
+				entityList.remove(i);
+				break;
+			}
+		}
+	}
+	
+	void removeID(int ID){
+		for(int i=0;i<entityList.size();i++){
+			if(entityList.get(i).ID == ID){
+				entityList.remove(i);
+				break;
+			}
+		}
+	}
 }

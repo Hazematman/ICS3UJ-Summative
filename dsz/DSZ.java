@@ -17,13 +17,17 @@ public class DSZ {
 	public final static int width = 800, height = 600;
 	public final static int tileWidth = 25, tileHeight = 15;
 	public final static int mapWidth = 6, mapHeight = 4;
-	static Random random = new Random();
+	
+	//Global values
+	public static int IDcounter = 0;
+	public static Random random = new Random();
 	
 	//Some internal stuff
 	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
 	static EntityManager entityManager = new EntityManager();
 	static TextureArray textures = new TextureArray("tilemap.png",8,2);
 	static Texture zombieTexture = new Texture();
+	static Texture swordTexture = new Texture();
 	
 	//Starting entities
 	static MapEntity worldSpawn;
@@ -46,17 +50,18 @@ public class DSZ {
 			playerTexture.loadFromFile(new File("player.png"));
 			zombieTexture.loadFromFile(new File("zombie.png"));
 			mapsquare.loadFromFile(new File("room.png"));
+			swordTexture.loadFromFile(new File("sword.png"));
 		} catch(IOException e){
 			e.printStackTrace();
 		}
 		
+		player = new PlayerEntity(playerTexture);
 		try {
 			worldSpawn = new MapEntity(textures,new FileReader("base.map"));
 		} catch (FileNotFoundException e1) {
 			System.out.println("Can't open base.map");
 			System.exit(0);
 		}
-		player = new PlayerEntity(playerTexture);
 		
 		try {
 			worldSpawn.currentMap.loadMapFile(new FileReader("base.map"));

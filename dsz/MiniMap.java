@@ -18,6 +18,7 @@ public class MiniMap extends Entity{
 	Sprite currentTile = new Sprite();
 	
 	public MiniMap(MapEntity map,ConstTexture mapSquare){
+		super();
 		this.map = map;
 		this.mapSquare = (Texture) mapSquare;
 		
@@ -27,6 +28,9 @@ public class MiniMap extends Entity{
 		drawable = true;
 		readyToUpdate = false;
 		collides = false;
+		
+		collisionBox = new FloatRect[1];
+		collisionBox[0] = new FloatRect(0,0,0,0);
 		
 		miniMapSprite.setPosition(x,y);
 		currentTile.setTexture(mapSquare);
