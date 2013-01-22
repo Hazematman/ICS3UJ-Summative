@@ -12,9 +12,12 @@ public class PlayerEntity extends Entity {
 	int speed = 4;
 	char direction = 'D';
 	int lastdir;
+	int health = 10;
 	boolean animate = false;
 	boolean attacking = false;
 	boolean readyToAttack = true;
+	boolean takeDamage = true;
+	Clock damageTimer = new Clock();
 	
 	Sprite playerSprite = new Sprite();
 	SwordEntity sword;
@@ -23,7 +26,7 @@ public class PlayerEntity extends Entity {
 	public PlayerEntity(ConstTexture master){
 		super();
 		playerSprite.setTexture(master);
-		playerSprite.scale(2,2);
+		playerSprite.setScale(2,2);
 		
 		//Set inherited variables
 		type = "Player";
@@ -130,6 +133,10 @@ public class PlayerEntity extends Entity {
 			readyToAttack = true;
 		}
 		
+		if(!takeDamage && damageTimer.getElapsedTime().asMilliseconds() >= 400){
+			takeDamage = true;
+		}
+		
 		lastdir = currentSet;
 		collisionBox[0] = playerSprite.getGlobalBounds();
 	}
@@ -186,8 +193,15 @@ public class PlayerEntity extends Entity {
 				playerSprite.setPosition((DSZ.tileWidth-2)*32, playerSprite.getGlobalBounds().top);
 				break;
 			}
-			
+		
 		}
+		
+		if(takeDamage && object.type.equals("Zombie")){
+			health--;
+			takeDamage = false;
+			damageTimer.restart();
+		}
+		
 	}
 
 	@Override

@@ -28,16 +28,19 @@ public class DSZ {
 	static TextureArray textures = new TextureArray("tilemap.png",8,2);
 	static Texture zombieTexture = new Texture();
 	static Texture swordTexture = new Texture();
+	static Font font = new Font();
 	
 	//Starting entities
 	static MapEntity worldSpawn;
 	static PlayerEntity player;
 	static MiniMap miniMap;
+	static HealthBarEntity healthBar;
 	
 	static void addEntities(){
 		entityManager.entityList.add(worldSpawn);
 		entityManager.entityList.add(player);
 		entityManager.entityList.add(miniMap);
+		entityManager.entityList.add(healthBar);
 	}
 	
 	static void setup(){
@@ -46,11 +49,14 @@ public class DSZ {
 		//load texture for player
 		Texture playerTexture = new Texture();
 		Texture mapsquare = new Texture();
+		Texture heartTexture = new Texture();
 		try{
 			playerTexture.loadFromFile(new File("player.png"));
 			zombieTexture.loadFromFile(new File("zombie.png"));
 			mapsquare.loadFromFile(new File("room.png"));
 			swordTexture.loadFromFile(new File("sword.png"));
+			heartTexture.loadFromFile(new File("heart.png"));
+			font.loadFromFile(new File("retganon.ttf"));
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -70,6 +76,7 @@ public class DSZ {
 		}
 		
 		miniMap = new MiniMap(worldSpawn, mapsquare);
+		healthBar = new HealthBarEntity(heartTexture, player);
 		
 		addEntities();
 		

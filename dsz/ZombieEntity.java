@@ -23,7 +23,7 @@ public class ZombieEntity extends Entity{
 	public ZombieEntity(ConstTexture master, Entity target,int startX, int startY){
 		super();
 		zombieSprite.setTexture(master);
-		zombieSprite.scale(2,2);
+		zombieSprite.setScale(2,2);
 		this.target = target;
 		
 		//Set inherited variables

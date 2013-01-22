@@ -93,7 +93,6 @@ public class MapEntity extends Entity {
 				zombies.remove(i);
 				i=0;
 				numOfZombies[currentX][currentY]--;
-				System.out.println(numOfZombies[currentX][currentY]);
 			}
 		}
 	}
