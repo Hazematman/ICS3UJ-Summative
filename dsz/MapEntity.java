@@ -36,6 +36,7 @@ public class MapEntity extends Entity {
 			defaultMap+=buf;
 		}
 		br.close();
+		file.close();
 		} catch(IOException e){
 			System.out.println("Can't open file");
 			System.exit(0);
@@ -54,6 +55,7 @@ public class MapEntity extends Entity {
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
+		
 	}
 	
 	/**
@@ -202,11 +204,7 @@ public class MapEntity extends Entity {
 		}
 		System.out.println(currentX + " " + currentY);
 		currentMap = mapList[currentX][currentY];
-		try {
-			spriteMap.setTexture(currentMap.drawMap(DSZ.tileWidth*16, DSZ.tileHeight*16));
-		} catch (TextureCreationException e) {
-			e.printStackTrace();
-		}
+		spriteMap.setTexture(currentMap.drawMap());
 		ArrayList<FloatRect> collisionBoxList = new ArrayList<FloatRect>();
 		int currentSlot = 0;
 		for(int x=0;x<currentMap.XSize;x++){

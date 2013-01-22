@@ -108,27 +108,6 @@ public class ZombieEntity extends Entity{
 			Vector2f bounceDirection = new Vector2f(-(objectCollsionBox.left - x), -(objectCollsionBox.top-y));
 			xVol = (int) bounceDirection.x/4;
 			yVol = (int) bounceDirection.y/4;
-			//zombieSprite.move(bounceDirection);
-			/*switch(DSZ.random.nextInt(4)){
-			case 0:
-				//xVol = 2;
-				zombieSprite.move(2, 0);
-				break;
-			case 1:
-				//xVol = -2;
-				zombieSprite.move(-2, 0);
-				break;
-			case 2:
-				//yVol = 2;
-				zombieSprite.move(0, 2);
-				break;
-			case 3:
-				//yVol = -2;
-				zombieSprite.move(0, -2);
-				break;
-			}*/
-			
-			
 		}
 		
 	}

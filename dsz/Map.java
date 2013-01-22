@@ -14,6 +14,9 @@ public class Map {
 	ArrayList<Integer> textureMap = new ArrayList<Integer>();
 	ArrayList<Integer> colMap = new ArrayList<Integer>();
 	
+	Sprite currentTile = new Sprite();
+	RenderTexture screen = new RenderTexture();
+	
 	/**
 	 * Constructs an empty map, using texts as textures for the map.
 	 * Use Map.loadMap or loadMapFile to set map data.
@@ -21,6 +24,12 @@ public class Map {
 	 */
 	public Map(TextureArray texts){
 		textures = texts;
+		
+		try {
+			screen.create(DSZ.tileWidth*16, DSZ.tileHeight*16);
+		} catch (TextureCreationException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -35,6 +44,7 @@ public class Map {
 			data+=buf;
 		}
 		br.close();
+		file.close();
 		} catch(IOException e){
 			System.out.println("Can't open file");
 			System.exit(0);
@@ -70,11 +80,8 @@ public class Map {
 	 * @return a Texture that is width x height big that can then be drawn to the screen
 	 * @throws TextureCreationException 
 	 */
-	ConstTexture drawMap(int width,int height) throws TextureCreationException{
-		Sprite currentTile = new Sprite();
-		RenderTexture screen = new RenderTexture();
+	ConstTexture drawMap(){
 		int currentSlot = 0;
-		screen.create(width, height);
 		screen.clear();
 		for(int x=0;x<XSize;x++){
 			for(int y=0;y<YSize;y++){
