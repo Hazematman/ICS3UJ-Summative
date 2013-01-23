@@ -27,6 +27,8 @@ public class DeathScreen {
 	void update(){
 		if(Keyboard.isKeyPressed(Key.SPACE)){
 			DSZ.state = 0;
+			DSZ.kills = 0;
+			DSZ.level = 0;
 			DSZ.player.reset();
 			DSZ.worldSpawn.reset();
 		}

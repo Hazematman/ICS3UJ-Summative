@@ -49,7 +49,7 @@ public class Background {
 	}
 	
 	void update(){
-		if(timer.getElapsedTime().asMilliseconds() >= 300){
+		if(timer.getElapsedTime().asMilliseconds() >= 200){
 			if(!showInstructions){
 				if(Keyboard.isKeyPressed(Key.UP)){
 					if(choice == 0){
@@ -69,6 +69,12 @@ public class Background {
 				switch(choice){
 				case 0:
 					DSZ.state = 1;
+					if(DSZ.gameTimer.started){
+						DSZ.gameTimer.start();
+					} else{
+						DSZ.gameTimer.reset();
+						DSZ.gameTimer.started = true;
+					}
 					break;
 				case 2:
 					showInstructions = !showInstructions;

@@ -100,6 +100,12 @@ public class PlayerEntity extends Entity {
 			attacking = true;
 		}
 		
+		//Press escape to pause
+		if(Keyboard.isKeyPressed(Key.ESCAPE)){
+			DSZ.gameTimer.stop();
+			DSZ.state = 0;
+		}
+		
 		// Set to the right set of textures for the direction
 		switch(direction){
 		case 'D':
@@ -156,10 +162,10 @@ public class PlayerEntity extends Entity {
 	void onCollision(Entity object,FloatRect objectCollisionBox) {
 		
 		if(object.type.equals("Map")){
-			int collisionID = 0;
 			MapEntity map = (MapEntity)object;
 			int px = (int)Math.floor((playerSprite.getGlobalBounds().left+16)/32);
 			int py = (int)Math.floor(((playerSprite.getGlobalBounds().top-120)+16)/32);
+			int collisionID = map.getCollisionID(px, py);
 			if(map.getCollisionID(px, py-1) >= 2){
 				collisionID = map.getCollisionID(px, py-1);
 				playerSprite.move(0,4);
@@ -179,6 +185,19 @@ public class PlayerEntity extends Entity {
 			
 			//Check if the collision id was something more than a wall
 			switch(collisionID){
+			//check for level change
+			case 1:
+				if(DSZ.level > 1){
+					DSZ.state = 3;
+					reset();
+					DSZ.worldSpawn.reset();
+					DSZ.level = 0;
+					DSZ.gameTimer.stop();
+				} else {
+				DSZ.level++;
+				DSZ.worldSpawn.reset();
+				}
+				break;
 			//check for map up change
 			case 3:
 				DSZ.worldSpawn.currentY--;

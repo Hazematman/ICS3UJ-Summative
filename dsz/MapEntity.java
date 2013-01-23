@@ -15,7 +15,7 @@ public class MapEntity extends Entity {
 	Map currentMap;
 	int[][] mapListInt = new int[DSZ.mapWidth][DSZ.mapHeight];
 	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];
-	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in (x,y) map
+	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in map[x][y]
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
 	int currentX, currentY;
@@ -95,6 +95,7 @@ public class MapEntity extends Entity {
 				zombies.remove(i);
 				i=0;
 				numOfZombies[currentX][currentY]--;
+				DSZ.kills++;
 			}
 		}
 	}
@@ -194,6 +195,19 @@ public class MapEntity extends Entity {
 			currentX = DSZ.random.nextInt(DSZ.mapWidth);
 			currentY = DSZ.random.nextInt(DSZ.mapHeight);
 		}
+		
+
+		while(true){
+			x = DSZ.random.nextInt(DSZ.mapWidth);
+			y = DSZ.random.nextInt(DSZ.mapHeight);
+			if(x != currentX && y != currentY && mapListInt[x][y] == 1){
+				//System.out.println("GOT IT AT: "+x+" "+y);
+				mapList[x][y].setTextureID(12, 7, 11);
+				mapList[x][y].setCollisionID(12, 7, 1);
+				break;
+			}
+		}
+		
 		currentMap = mapList[currentX][currentY];
 		numOfZombies[currentX][currentY] = 0;
 	}
@@ -221,7 +235,7 @@ public class MapEntity extends Entity {
 		int currentSlot = 0;
 		for(int x=0;x<currentMap.XSize;x++){
 			for(int y=0;y<currentMap.YSize;y++){
-				if(currentMap.colMap.get(currentSlot) >= 2){
+				if(currentMap.colMap.get(currentSlot) > 0){
 					collisionBoxList.add(new FloatRect(x*32+this.x,y*32+this.y,32,32));
 				}
 				currentSlot++;
@@ -231,7 +245,7 @@ public class MapEntity extends Entity {
 		collisionBoxList.clear();
 		for(int i=0;i<numOfZombies[currentX][currentY];i++){
 			ZombieEntity zombie = new ZombieEntity(DSZ.zombieTexture,DSZ.player,
-					DSZ.random.nextInt((DSZ.tileWidth-3)*32 - 2*32)+2*32,DSZ.random.nextInt((DSZ.tileHeight-3)*32-((2*32)+120)+(2*32))+120);
+					DSZ.random.nextInt((DSZ.tileWidth-3)*32 - 3*32)+3*32,DSZ.random.nextInt((DSZ.tileHeight-3)*32-((3*32)+120)+(3*32))+((3*32)+120));
 			zombie.update(0);
 			zombies.add(zombie);
 			DSZ.entityManager.entityList.add(zombies.get(i));

@@ -21,7 +21,10 @@ public class DSZ {
 	//Global values
 	public static int IDcounter = 0;
 	public static Random random = new Random();
-	public static int state = 0; // 0=title screen 1=game 2=death 3=paused
+	public static int level = 0;
+	public static int kills = 0;
+	public static StopWatch gameTimer = new StopWatch();
+	public static int state = 0; // 0=title screen 1=game 2=death 3=gameover 4=highscores
 	
 	//Some internal stuff
 	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
@@ -32,6 +35,7 @@ public class DSZ {
 	static Font font = new Font();
 	static Background background;
 	static DeathScreen death;
+	static EndGame end;
 	
 	//Starting entities
 	static MapEntity worldSpawn;
@@ -85,6 +89,7 @@ public class DSZ {
 		
 		background = new Background(backgroundTexture,heartTexture);
 		death = new DeathScreen();
+		end = new EndGame();
 		
 		addEntities();
 		
@@ -125,6 +130,13 @@ public class DSZ {
 				
 				screen.clear();
 				death.draw(screen);
+				screen.display();
+			}
+			else if(state == 3){
+				end.update();
+				
+				screen.clear();
+				end.draw(screen);
 				screen.display();
 			}
 		}
