@@ -21,6 +21,7 @@ public class DSZ {
 	//Global values
 	public static int IDcounter = 0;
 	public static Random random = new Random();
+	public static int state = 0; // 0=title screen 1=game 2=death 3=paused
 	
 	//Some internal stuff
 	static RenderWindow screen = new RenderWindow(new VideoMode(width,height),title);
@@ -29,6 +30,7 @@ public class DSZ {
 	static Texture zombieTexture = new Texture();
 	static Texture swordTexture = new Texture();
 	static Font font = new Font();
+	static Background background;
 	
 	//Starting entities
 	static MapEntity worldSpawn;
@@ -50,12 +52,14 @@ public class DSZ {
 		Texture playerTexture = new Texture();
 		Texture mapsquare = new Texture();
 		Texture heartTexture = new Texture();
+		Texture backgroundTexture = new Texture();
 		try{
 			playerTexture.loadFromFile(new File("player.png"));
 			zombieTexture.loadFromFile(new File("zombie.png"));
 			mapsquare.loadFromFile(new File("room.png"));
 			swordTexture.loadFromFile(new File("sword.png"));
 			heartTexture.loadFromFile(new File("heart.png"));
+			backgroundTexture.loadFromFile(new File("background.png"));
 			font.loadFromFile(new File("retganon.ttf"));
 		} catch(IOException e){
 			e.printStackTrace();
@@ -78,6 +82,8 @@ public class DSZ {
 		miniMap = new MiniMap(worldSpawn, mapsquare);
 		healthBar = new HealthBarEntity(heartTexture, player);
 		
+		background = new Background(backgroundTexture,heartTexture);
+		
 		addEntities();
 		
 	}
@@ -92,18 +98,26 @@ public class DSZ {
 					screen.close();
 				}
 			}
+			if(state == 0){
+				background.update();
 				
-			entityManager.updateEntities(framecount);
-			entityManager.collideEntities();
-			
-			screen.clear();
-			entityManager.drawEntities(screen);
-			screen.display();
-			
-			if(framecount > 60){
-				framecount = 0;
-			} else framecount++;
-			
+				screen.clear();
+				background.draw(screen);
+				screen.display();
+			}
+			else if(state == 1){
+				entityManager.updateEntities(framecount);
+				entityManager.collideEntities();
+				
+				screen.clear();
+				entityManager.drawEntities(screen);
+				screen.display();
+				
+				if(framecount > 60){
+					framecount = 0;
+				} else framecount++;
+				
+			}
 		}
 
 	}
