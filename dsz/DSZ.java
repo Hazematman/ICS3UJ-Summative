@@ -31,6 +31,7 @@ public class DSZ {
 	static Texture swordTexture = new Texture();
 	static Font font = new Font();
 	static Background background;
+	static DeathScreen death;
 	
 	//Starting entities
 	static MapEntity worldSpawn;
@@ -83,6 +84,7 @@ public class DSZ {
 		healthBar = new HealthBarEntity(heartTexture, player);
 		
 		background = new Background(backgroundTexture,heartTexture);
+		death = new DeathScreen();
 		
 		addEntities();
 		
@@ -117,6 +119,13 @@ public class DSZ {
 					framecount = 0;
 				} else framecount++;
 				
+			}
+			else if(state == 2){
+				death.update();
+				
+				screen.clear();
+				death.draw(screen);
+				screen.display();
 			}
 		}
 

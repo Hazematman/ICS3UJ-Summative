@@ -44,6 +44,8 @@ public class MapEntity extends Entity {
 			System.out.println("Can't open file");
 			System.exit(0);
 		}
+		
+		//create a random level
 		generateLevel();
 		
 		//Set inherited variables
@@ -196,14 +198,19 @@ public class MapEntity extends Entity {
 		numOfZombies[currentX][currentY] = 0;
 	}
 	
-	void updatePosition(){
-/*		for(int i=0;i<DSZ.entityManager.entityList.size();i++){
-			if(DSZ.entityManager.entityList.get(i).type.equals("Zombie")){
-				DSZ.entityManager.entityList.remove(i);
-				i=0;
+	void reset(){
+		for(int x=0;x<DSZ.mapWidth;x++){
+			for(int y=0;y<DSZ.mapHeight;y++){
+				mapListInt[x][y] = 0;
+				mapList[x][y] = null;
 			}
-		}*/
-		
+		}
+		currentMap = null;
+		generateLevel();
+		updatePosition();
+	}
+	
+	void updatePosition(){
 		for(ZombieEntity zomb : zombies){
 			DSZ.entityManager.removeID(zomb.ID);
 		}

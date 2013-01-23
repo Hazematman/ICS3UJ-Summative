@@ -40,6 +40,13 @@ public class PlayerEntity extends Entity {
 		playerSprite.setPosition(x, y);
 		playerSprite.setTextureRect(new IntRect(currentFrame*16,currentSet*16,16,16));
 	}
+	
+	void reset(){
+		health = 10;
+		x = DSZ.width/2;
+		y = DSZ.height/2;
+		playerSprite.setPosition(x, y);
+	}
 
 	@Override
 	void update(int framecount) {
@@ -135,6 +142,10 @@ public class PlayerEntity extends Entity {
 		
 		if(!takeDamage && damageTimer.getElapsedTime().asMilliseconds() >= 400){
 			takeDamage = true;
+		}
+		
+		if(health <= 0){
+			DSZ.state = 2;
 		}
 		
 		lastdir = currentSet;

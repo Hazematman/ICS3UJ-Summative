@@ -104,7 +104,7 @@ public class ZombieEntity extends Entity{
 			if(py-1 >= 0 && map.getCollisionID(px, py-1) >= 2){
 				zombieSprite.move(0,2);
 			}
-			if(py+1 < DSZ.tileHeight && map.getCollisionID(px, py+1) >= 2){
+			if(py+1 < DSZ.tileHeight  && px >=0  && map.getCollisionID(px, py+1) >= 2){
 				zombieSprite.move(0,-2);
 			}
 			if(px-1  >=  0 && map.getCollisionID(px-1, py) >= 2){
