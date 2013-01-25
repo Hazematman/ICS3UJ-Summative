@@ -16,7 +16,7 @@ public class MapEntity extends Entity {
 	int[][] mapListInt = new int[DSZ.mapWidth][DSZ.mapHeight];
 	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];
 	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in map[x][y]
-	boolean[][] chestMap = new boolean[DSZ.mapWidth][DSZ.mapHeight]; // whether there is a map at this point or not
+	boolean[][] chestMap = new boolean[DSZ.mapWidth][DSZ.mapHeight]; // whether there is a cheat at map[x,y] or not
 	ChestEntity chest;
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
@@ -60,7 +60,7 @@ public class MapEntity extends Entity {
 		
 		drawable = true;
 		collides = true;
-		readyToUpdate = false;
+		readyToUpdate = true;
 		alive = true;
 		updatePosition();
 		
@@ -92,23 +92,14 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		/*for(int i=0;i<zombies.size();i++){
+		for(int i=0;i<zombies.size();i++){
 			if(zombies.get(i).health <= 0){
-				DSZ.entityManager.removeID(zombies.get(i).ID);
 				zombies.remove(i);
 				i=0;
 				numOfZombies[currentX][currentY]--;
 				DSZ.kills++;
 			}
 		}
-		if(chest != null){
-			if(chest.open){
-				chestMap[currentX][currentY] = false;
-				chest = null;
-				DSZ.entityManager.removeType("Chest");
-			}
-		}*/
-		return;
 	}
 	
 	
