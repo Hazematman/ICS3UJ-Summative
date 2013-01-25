@@ -119,7 +119,8 @@ public class ZombieEntity extends Entity{
 			yVol = (int) bounceDirection.y/4;
 		}
 		if(takeDamage && object.type.equals("Sword")){
-			health-=40;
+			SwordEntity sword = (SwordEntity) object;
+			health -= sword.damageLVL*40;
 			damageTimer.restart();
 			takeDamage = false;
 		}

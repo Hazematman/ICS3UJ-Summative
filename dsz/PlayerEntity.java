@@ -13,6 +13,7 @@ public class PlayerEntity extends Entity {
 	char direction = 'D';
 	int lastdir;
 	int health = 10;
+	int damageLVL = 1;
 	boolean animate = false;
 	boolean attacking = false;
 	boolean readyToAttack = true;
@@ -95,7 +96,7 @@ public class PlayerEntity extends Entity {
 		
 		//check for sword button
 		if(Keyboard.isKeyPressed(Keyboard.Key.SPACE) && !attacking && readyToAttack){
-			sword = new SwordEntity(DSZ.swordTexture,this);
+			sword = new SwordEntity(DSZ.swordTexture,this,damageLVL);
 			DSZ.entityManager.entityList.add(sword);
 			attacking = true;
 		}

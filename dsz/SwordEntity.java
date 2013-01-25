@@ -11,14 +11,17 @@ public class SwordEntity extends Entity {
 	Sprite sword = new Sprite();
 	char direction;
 	boolean dead;
+	int damageLVL;
 	Clock timer = new Clock();
 	
-	public SwordEntity(ConstTexture texture, PlayerEntity parentPlayer){
+	public SwordEntity(ConstTexture texture, PlayerEntity parentPlayer, int damageLVL){
 		super();
 		parent = parentPlayer;
 		sword.setTexture(texture);
 		sword.setScale(2,2);
 		timer.restart();
+		
+		this.damageLVL = damageLVL;
 		
 		//Internal values
 		type = "Sword";

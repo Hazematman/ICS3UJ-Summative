@@ -16,6 +16,8 @@ public class MapEntity extends Entity {
 	int[][] mapListInt = new int[DSZ.mapWidth][DSZ.mapHeight];
 	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];
 	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in map[x][y]
+	boolean[][] chestMap = new boolean[DSZ.mapWidth][DSZ.mapHeight]; // whether there is a map at this point or not
+	ChestEntity chest;
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
 	int currentX, currentY;
@@ -96,6 +98,13 @@ public class MapEntity extends Entity {
 				i=0;
 				numOfZombies[currentX][currentY]--;
 				DSZ.kills++;
+			}
+		}
+		if(chest != null){
+			if(chest.open){
+				chestMap[currentX][currentY] = false;
+				chest = null;
+				DSZ.entityManager.removeType("Chest");
 			}
 		}
 	}
@@ -197,13 +206,23 @@ public class MapEntity extends Entity {
 		}
 		
 
+		//Place exit
 		while(true){
 			x = DSZ.random.nextInt(DSZ.mapWidth);
 			y = DSZ.random.nextInt(DSZ.mapHeight);
 			if(x != currentX && y != currentY && mapListInt[x][y] == 1){
-				//System.out.println("GOT IT AT: "+x+" "+y);
 				mapList[x][y].setTextureID(12, 7, 11);
 				mapList[x][y].setCollisionID(12, 7, 1);
+				break;
+			}
+		}
+		//place chest
+		while(true){
+			x = DSZ.random.nextInt(DSZ.mapWidth);
+			y = DSZ.random.nextInt(DSZ.mapHeight);
+			if(x != currentX && y != currentY && mapListInt[x][y] == 1){
+				System.out.println(x+" "+y);
+				chestMap[x][y] = true;
 				break;
 			}
 		}
@@ -216,6 +235,9 @@ public class MapEntity extends Entity {
 		for(int x=0;x<DSZ.mapWidth;x++){
 			for(int y=0;y<DSZ.mapHeight;y++){
 				mapListInt[x][y] = 0;
+				numOfZombies[x][y] = 0;
+				chestMap[x][y] = false;
+				chest = null;
 				mapList[x][y] = null;
 			}
 		}
@@ -227,6 +249,9 @@ public class MapEntity extends Entity {
 	void updatePosition(){
 		for(ZombieEntity zomb : zombies){
 			DSZ.entityManager.removeID(zomb.ID);
+		}
+		if(chest != null){
+			DSZ.entityManager.removeType("Chest");		
 		}
 		zombies.clear();
 		currentMap = mapList[currentX][currentY];
@@ -250,6 +275,12 @@ public class MapEntity extends Entity {
 			zombies.add(zombie);
 			DSZ.entityManager.entityList.add(zombies.get(i));
 		}
+		
+		if(chestMap[currentX][currentY] == true){
+			chest = new ChestEntity(textures.tiles.get(13));
+			chest.update(0);
+			DSZ.entityManager.entityList.add(chest);
+		} else chest = null;
 	}
 
 	/**
