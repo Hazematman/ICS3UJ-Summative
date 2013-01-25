@@ -16,7 +16,7 @@ public class MapEntity extends Entity {
 	int[][] mapListInt = new int[DSZ.mapWidth][DSZ.mapHeight];
 	Map[][] mapList = new Map[DSZ.mapWidth][DSZ.mapHeight];
 	int[][] numOfZombies = new int[DSZ.mapWidth][DSZ.mapHeight]; //Number of zombies in map[x][y]
-	boolean[][] chestMap = new boolean[DSZ.mapWidth][DSZ.mapHeight]; // whether there is a cheat at map[x,y] or not
+	boolean[][] chestMap = new boolean[DSZ.mapWidth][DSZ.mapHeight]; // whether there is a chest at map[x,y] or not
 	ChestEntity chest;
 	Sprite spriteMap = new Sprite();
 	String defaultMap = "";
@@ -214,7 +214,6 @@ public class MapEntity extends Entity {
 			x = DSZ.random.nextInt(DSZ.mapWidth);
 			y = DSZ.random.nextInt(DSZ.mapHeight);
 			if(x != currentX && y != currentY && mapListInt[x][y] == 1){
-				System.out.println(x+" "+y);
 				chestMap[x][y] = true;
 				break;
 			}

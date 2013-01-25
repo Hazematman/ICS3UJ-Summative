@@ -76,6 +76,9 @@ public class Background {
 						DSZ.gameTimer.started = true;
 					}
 					break;
+				case 1:
+					DSZ.state = 4;
+					break;
 				case 2:
 					showInstructions = !showInstructions;
 					break;

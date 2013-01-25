@@ -36,6 +36,7 @@ public class DSZ {
 	static Background background;
 	static DeathScreen death;
 	static EndGame end;
+	static HighScore highScore;
 	
 	//Starting entities
 	static MapEntity worldSpawn;
@@ -73,15 +74,10 @@ public class DSZ {
 		player = new PlayerEntity(playerTexture);
 		try {
 			worldSpawn = new MapEntity(textures,new FileReader("base.map"));
+			highScore = new HighScore(new FileReader("scores.txt"));
 		} catch (FileNotFoundException e1) {
 			System.out.println("Can't open base.map");
 			System.exit(0);
-		}
-		
-		try {
-			worldSpawn.currentMap.loadMapFile(new FileReader("base.map"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 		
 		miniMap = new MiniMap(worldSpawn, mapsquare);
@@ -137,6 +133,13 @@ public class DSZ {
 				
 				screen.clear();
 				end.draw(screen);
+				screen.display();
+			}
+			else if(state == 4){
+				highScore.update();
+				
+				screen.clear();
+				highScore.draw(screen);
 				screen.display();
 			}
 		}
