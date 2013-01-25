@@ -7,7 +7,6 @@ import org.jsfml.graphics.Sprite;
 public class ChestEntity extends Entity{
 	
 	Sprite chestSprite = new Sprite();
-	boolean open = false;
 	int contents;
 	
 	public ChestEntity(ConstTexture img){
@@ -20,6 +19,7 @@ public class ChestEntity extends Entity{
 		collides = true;
 		drawable = true;
 		readyToUpdate = true;
+		alive = true;
 		
 		contents = DSZ.random.nextInt(2);
 		System.out.println(contents);
@@ -52,7 +52,7 @@ public class ChestEntity extends Entity{
 				}
 				break;
 			}
-			open = true;
+			alive = false;
 		}
 		
 	}

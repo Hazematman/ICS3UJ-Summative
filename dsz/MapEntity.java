@@ -60,7 +60,8 @@ public class MapEntity extends Entity {
 		
 		drawable = true;
 		collides = true;
-		readyToUpdate = true;
+		readyToUpdate = false;
+		alive = true;
 		updatePosition();
 		
 	}
@@ -91,7 +92,7 @@ public class MapEntity extends Entity {
 	 */
 	@Override
 	void update(int framecount) {
-		for(int i=0;i<zombies.size();i++){
+		/*for(int i=0;i<zombies.size();i++){
 			if(zombies.get(i).health <= 0){
 				DSZ.entityManager.removeID(zombies.get(i).ID);
 				zombies.remove(i);
@@ -106,7 +107,8 @@ public class MapEntity extends Entity {
 				chest = null;
 				DSZ.entityManager.removeType("Chest");
 			}
-		}
+		}*/
+		return;
 	}
 	
 	

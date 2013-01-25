@@ -36,6 +36,7 @@ public class PlayerEntity extends Entity {
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
+		alive = true;
 		collisionBox = new FloatRect[1];
 		
 		playerSprite.setPosition(x, y);
@@ -135,7 +136,7 @@ public class PlayerEntity extends Entity {
 		if(attacking){
 			currentFrame = 3;
 			currentSet = lastdir;
-			if(sword.dead){
+			if(!sword.alive){
 				DSZ.entityManager.removeType("Sword");
 				readyToAttack = false;
 				attacking = false;

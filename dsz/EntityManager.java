@@ -17,6 +17,9 @@ public class EntityManager {
 		for(int i=0;i<entityList.size();i++){
 			if(entityList.get(i).readyToUpdate){
 				entityList.get(i).update(framecount);
+				if(entityList.get(i).alive == false){
+					removeID((entityList.get(i).ID));
+				}
 			}
 		}
 	}

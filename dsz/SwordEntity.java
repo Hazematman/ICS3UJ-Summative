@@ -10,7 +10,6 @@ public class SwordEntity extends Entity {
 	PlayerEntity parent;
 	Sprite sword = new Sprite();
 	char direction;
-	boolean dead;
 	int damageLVL;
 	Clock timer = new Clock();
 	
@@ -28,6 +27,7 @@ public class SwordEntity extends Entity {
 		collides = true;
 		drawable = true;
 		readyToUpdate = true;
+		alive = true;
 		direction = parent.direction;
 		sword.setOrigin(8, 8);
 		switch(direction){
@@ -64,7 +64,7 @@ public class SwordEntity extends Entity {
 		}
 		
 		if(timer.getElapsedTime().asMilliseconds() >= 100){
-			dead = true;
+			alive = false;
 		}
 		
 		sword.setPosition(x, y);

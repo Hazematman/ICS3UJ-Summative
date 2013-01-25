@@ -12,6 +12,7 @@ public abstract class Entity {
 	FloatRect[] collisionBox;
 	int x,y;
 	int ID;
+	boolean alive;
 	
 	public Entity(){
 		ID = DSZ.IDcounter;

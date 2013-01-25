@@ -33,6 +33,7 @@ public class ZombieEntity extends Entity{
 		drawable = true;
 		collides = true;
 		readyToUpdate = true;
+		alive = true;
 		collisionBox = new FloatRect[1];
 		
 		zombieSprite.setPosition(x, y);
@@ -89,6 +90,10 @@ public class ZombieEntity extends Entity{
 		
 		if(!takeDamage && damageTimer.getElapsedTime().asMilliseconds() >= 300){
 			takeDamage = true;
+		}
+		
+		if(health < 0){
+			alive = false;
 		}
 		
 		collisionBox[0] = zombieSprite.getGlobalBounds();
